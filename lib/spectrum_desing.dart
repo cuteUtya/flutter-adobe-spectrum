@@ -1,3 +1,4 @@
+import 'package:adobe_spectrum/spectrum_typography.dart';
 import 'package:design_system_provider/desing_colors.dart';
 import 'package:design_system_provider/desing_components.dart';
 import 'package:design_system_provider/desing_layout.dart';
@@ -165,6 +166,8 @@ class Spectrum implements DesingSystem {
       magenta: magenta,
     );
 
+    typography = SpectrumTypograhy();
+
     layout = LayoutData(
       spacing50: Spacing(2),
       spacing75: Spacing(4),
@@ -192,62 +195,6 @@ class Spectrum implements DesingSystem {
 
   @override
   late ComponentsData components;
-}
-
-class SpectrumTypograhy extends TypographyData {
-  SpectrumTypograhy()
-      : super(
-          fontSize50: FontSize(desktop: 11, mobile: 13),
-          fontSize75: FontSize(desktop: 12, mobile: 15),
-          fontSize100: FontSize(desktop: 14, mobile: 17),
-          fontSize200: FontSize(desktop: 16, mobile: 19),
-          fontSize300: FontSize(desktop: 18, mobile: 22),
-          fontSize400: FontSize(desktop: 20, mobile: 24),
-          fontSize500: FontSize(desktop: 22, mobile: 27),
-          fontSize600: FontSize(desktop: 25, mobile: 31),
-          fontSize700: FontSize(desktop: 28, mobile: 34),
-          fontSize800: FontSize(desktop: 32, mobile: 39),
-          fontSize900: FontSize(desktop: 36, mobile: 44),
-          fontSize1000: FontSize(desktop: 40, mobile: 49),
-          fontSize1100: FontSize(desktop: 45, mobile: 55),
-          fontSize1200: FontSize(desktop: 50, mobile: 62),
-          fontSize1300: FontSize(desktop: 60, mobile: 70),
-        );
-
-  @override
-  TextSpan text(
-    String text, {
-    required double size,
-    TextSemantic semantic = TextSemantic.body,
-    Color? color,
-  }) {
-    String fontFamily;
-
-    switch (semantic) {
-      case TextSemantic.code:
-        fontFamily = "Source Code Pro";
-        break;
-
-      default:
-        // TODO import adobe clean
-        fontFamily = "Adobe Clean";
-        break;
-    }
-    return TextSpan(
-      text: text,
-      style: TextStyle(
-        fontFamily: fontFamily,
-        fontSize: size,
-        color: color,
-        fontWeight: semantic == TextSemantic.heading
-            ? FontWeight.bold
-            : FontWeight.normal,
-        fontStyle: semantic == TextSemantic.detail
-            ? FontStyle.italic
-            : FontStyle.normal,
-      ),
-    );
-  }
 }
 
 enum SpectrumTheme {

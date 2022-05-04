@@ -3,8 +3,8 @@ import 'package:design_system_provider/desing_colors.dart';
 import 'package:design_system_provider/desing_components.dart';
 import 'package:design_system_provider/desing_provider.dart';
 import 'package:design_system_provider/desing_typography.dart';
+import 'package:adobe_spectrum/clickable_object.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class Button extends StatefulWidget {
   const Button({
@@ -40,21 +40,9 @@ class Button extends StatefulWidget {
   State<StatefulWidget> createState() => _ButtonState();
 }
 
-class _ButtonState extends State<Button> {
+class _ButtonState extends ClickableObjectState<Button> {
   var typography = SpectrumTypograhy();
   late var design = Desing.of(context);
-
-  bool hover = false;
-  bool touch = false;
-
-  bool focus = false;
-
-  void clickHandler(bool isDown) {
-    if (widget.onClick != null) {
-      if (!isDown && touch) widget.onClick?.call();
-      setState(() => touch = isDown);
-    }
-  }
 
   late ColorTones mainColor = getMainColor();
 
@@ -164,6 +152,12 @@ class _ButtonState extends State<Button> {
   }
 
   @override
+  void initState() {
+    super.onClick = widget.onClick;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Color buttonColor = Colors.transparent;
     //used only with outline style
@@ -255,7 +249,7 @@ class _ButtonState extends State<Button> {
       );
     }
 
-    Widget result = AnimatedContainer(
+    result = AnimatedContainer(
       //TODO get real duration
       duration: const Duration(milliseconds: 150),
       padding: EdgeInsets.symmetric(
@@ -292,30 +286,7 @@ class _ButtonState extends State<Button> {
 
     if (widget.isDisabled) return result;
 
-    return Focus(
-      onFocusChange: (value) => setState(() => focus = value),
-      onKeyEvent: (_, keyEvent) {
-        if (keyEvent.logicalKey == LogicalKeyboardKey.enter) {
-          bool isDown = keyEvent is KeyDownEvent || keyEvent is KeyRepeatEvent;
-          clickHandler(isDown);
-          return KeyEventResult.handled;
-        }
-
-        return KeyEventResult.ignored;
-      },
-      child: MouseRegion(
-        onEnter: (_) => setState(() => hover = true),
-        onExit: (_) => setState(() {
-          hover = false;
-          clickHandler(false);
-        }),
-        child: GestureDetector(
-          onTapDown: (_) => clickHandler(true),
-          onTapUp: (_) => clickHandler(false),
-          child: result,
-        ),
-      ),
-    );
+    return super.build(context);
   }
 }
 
