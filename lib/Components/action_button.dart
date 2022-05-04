@@ -157,6 +157,8 @@ class _ActionButtonState extends ClickableObjectState<ActionButton> {
   Widget build(BuildContext context) {
     result = buildContent();
 
+    var border = getBorder();
+
     result = Container(
       padding: widget.label == null
           ? const EdgeInsets.all(8)
@@ -165,19 +167,26 @@ class _ActionButtonState extends ClickableObjectState<ActionButton> {
               horizontal: 12,
             ),
       decoration: BoxDecoration(
-        border: getBorder(),
+        border: border,
         color: getFillColor(),
         borderRadius: const BorderRadius.all(Radius.circular(4)),
       ),
       child: result,
     );
 
+    if (border?.bottom.width == 1) {
+      result = Container(
+        margin: const EdgeInsets.all(1),
+        child: result,
+      );
+    }
+
     result = Container(
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(6)),
         border: Border.all(
-          color: focus
+          color: focus && widget.isEmphasized
               ? Desing.of(context).colors.accent.shade800
               : Colors.transparent,
           width: 2,
