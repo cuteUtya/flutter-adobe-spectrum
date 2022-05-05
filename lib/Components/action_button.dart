@@ -16,7 +16,7 @@ class ActionButton extends StatefulWidget {
     this.isSelected = false,
     this.isEmphasized = false,
     this.staticColor,
-    this.selectedTextColor = Colors.black,
+    this.selectedTextColor,
     this.isDisabled = false,
   }) : super(key: key);
 
@@ -29,7 +29,7 @@ class ActionButton extends StatefulWidget {
   final bool isSelected;
   final bool isEmphasized;
   final ColorTones? staticColor;
-  final Color selectedTextColor;
+  final Color? selectedTextColor;
   final bool isDisabled;
 
   @override
@@ -51,8 +51,10 @@ class _ActionButtonState extends ClickableObjectState<ActionButton> {
     var textSize = Desing.of(context).typography.fontSize100.value;
 
     Color textColor;
-    if (widget.isSelected) {
-      textColor = widget.selectedTextColor;
+    if (widget.isSelected &&
+        widget.selectedTextColor != null &&
+        !widget.isDisabled) {
+      textColor = widget.selectedTextColor!;
     } else {
       textColor = widget.isDisabled
           ? Desing.of(context).colors.gray.shade500
@@ -119,7 +121,10 @@ class _ActionButtonState extends ClickableObjectState<ActionButton> {
   }
 
   Color getFillColor() {
-    if (widget.isDisabled && !widget.isQuiet) {
+    if (widget.isDisabled) {
+      if (widget.isQuiet) {
+        return Colors.transparent;
+      }
       return Desing.of(context).colors.gray.shade300;
     }
 
