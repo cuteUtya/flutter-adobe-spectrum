@@ -181,24 +181,39 @@ class _ActionButtonState extends ClickableObjectState<ActionButton> {
 
     if (border?.bottom.width == 1) {
       result = Container(
-        margin: const EdgeInsets.all(1),
+        padding: const EdgeInsets.all(1),
+        child: result,
+      );
+    }
+
+    if (widget.isEmphasized) {
+      result = Container(
+        margin: EdgeInsets.all(focus ? 1 : 3),
         child: result,
       );
     }
 
     result = Container(
-      padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(6)),
-        border: Border.all(
-          color: focus && widget.isEmphasized
-              ? Desing.of(context).colors.accent.shade800
-              : Colors.transparent,
-          width: 2,
-        ),
+        border: focus && widget.isEmphasized
+            ? Border.all(
+                color: Desing.of(context).colors.accent.shade800,
+                width: 2,
+              )
+            : null,
       ),
       child: result,
     );
+
+    /*  result = Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.red,
+        ),
+      ),
+      child: result,
+    );*/
 
     if (widget.isDisabled) return result;
 
