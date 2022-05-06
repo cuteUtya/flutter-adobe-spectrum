@@ -13,24 +13,35 @@ class ActionButton extends StatefulWidget {
     this.icon,
     this.size = ButtonSize.medium,
     this.isQuiet = false,
+    this.justified = false,
     this.isSelected = false,
     this.isEmphasized = false,
     this.staticColor,
     this.selectedTextColor,
     this.isDisabled = false,
+    this.orientation = Axis.horizontal,
+    this.groupPosition,
+    this.enableFocus = true,
   }) : super(key: key);
 
   final String? label;
   final VoidCallback? onClick;
   final String? hideLabel;
   final IconData? icon;
+  // TODO Adobe didn't drawed variant's with different sizes so i don't implemented it
   final ButtonSize size;
   final bool isQuiet;
   final bool isSelected;
+  final bool justified;
   final bool isEmphasized;
   final ColorTones? staticColor;
   final Color? selectedTextColor;
   final bool isDisabled;
+  final bool enableFocus;
+
+  // Fields only for ActionBar
+  final Axis orientation;
+  final GroupPosition? groupPosition;
 
   @override
   State<StatefulWidget> createState() => _ActionButtonState();
@@ -40,6 +51,7 @@ class _ActionButtonState extends ClickableObjectState<ActionButton> {
   @override
   void initState() {
     super.onClick = widget.onClick;
+    super.enableFocus = widget.enableFocus;
     super.initState();
   }
 
@@ -158,9 +170,53 @@ class _ActionButtonState extends ClickableObjectState<ActionButton> {
     return Desing.of(context).colors.gray.shade50;
   }
 
+  BorderRadius getBorderRadius() {
+    const base = Radius.circular(4);
+
+    if (widget.groupPosition == null) {
+      return const BorderRadius.all(base);
+    }
+
+    switch (widget.groupPosition!) {
+      case GroupPosition.start:
+        if (widget.orientation == Axis.horizontal) {
+          return const BorderRadius.horizontal(left: base);
+        } else {
+          return const BorderRadius.vertical(top: base);
+        }
+      case GroupPosition.center:
+        return const BorderRadius.all(Radius.zero);
+
+      case GroupPosition.end:
+        if (widget.orientation == Axis.horizontal) {
+          return const BorderRadius.horizontal(right: base);
+        } else {
+          return const BorderRadius.vertical(bottom: base);
+        }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     result = buildContent();
+
+    if (widget.justified) {
+      if (widget.orientation == Axis.horizontal) {
+        result = Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            result,
+          ],
+        );
+      } else {
+        result = Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            result,
+          ],
+        );
+      }
+    }
 
     var border = getBorder();
 
@@ -174,19 +230,19 @@ class _ActionButtonState extends ClickableObjectState<ActionButton> {
       decoration: BoxDecoration(
         border: border,
         color: getFillColor(),
-        borderRadius: const BorderRadius.all(Radius.circular(4)),
+        borderRadius: getBorderRadius(),
       ),
       child: result,
     );
 
-    if (border?.bottom.width == 1) {
+    if (border?.bottom.width == 1 && widget.groupPosition == null) {
       result = Container(
         padding: const EdgeInsets.all(1),
         child: result,
       );
     }
 
-    if (widget.isEmphasized) {
+    if (widget.isEmphasized && widget.groupPosition == null) {
       result = Container(
         margin: EdgeInsets.all(focus ? 1 : 3),
         child: result,
@@ -206,17 +262,14 @@ class _ActionButtonState extends ClickableObjectState<ActionButton> {
       child: result,
     );
 
-    /*  result = Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.red,
-        ),
-      ),
-      child: result,
-    );*/
-
     if (widget.isDisabled) return result;
 
     return super.build(context);
   }
+}
+
+enum GroupPosition {
+  start,
+  center,
+  end,
 }
