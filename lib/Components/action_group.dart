@@ -87,7 +87,7 @@ class _ActionGroupState extends State<ActionGroup> {
       label: item.label,
       icon: item.icon,
       isDisabled: widget.isDisabled,
-      isEmphasized: widget.isEmphasis && selected,
+      isEmphasized: widget.isEmphasis && (selected || !widget.enableSelection),
       isQuiet: true,
       isSelected: selected,
       justified: widget.justified,

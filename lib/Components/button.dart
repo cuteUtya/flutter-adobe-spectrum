@@ -41,7 +41,6 @@ class Button extends StatefulWidget {
 }
 
 class _ButtonState extends ClickableObjectState<Button> {
-  var typography = SpectrumTypograhy();
   late var design = Desing.of(context);
 
   late ColorTones mainColor = getMainColor();
@@ -209,17 +208,17 @@ class _ButtonState extends ClickableObjectState<Button> {
     }
 
     var fontSize = {
-      ButtonSize.small: typography.fontSize75,
-      ButtonSize.medium: typography.fontSize100,
-      ButtonSize.large: typography.fontSize200,
-      ButtonSize.extraLarge: typography.fontSize300,
+      ButtonSize.small: design.typography.fontSize75,
+      ButtonSize.medium: design.typography.fontSize100,
+      ButtonSize.large: design.typography.fontSize200,
+      ButtonSize.extraLarge: design.typography.fontSize300,
     }[widget.size]!
         .value;
 
     Widget content = widget.label == null
         ? const SizedBox()
         : Text.rich(
-            typography.text(
+            design.typography.text(
               widget.label!,
               color: textColor,
               semantic: TextSemantic.heading,

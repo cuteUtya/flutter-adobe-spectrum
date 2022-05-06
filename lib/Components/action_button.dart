@@ -60,7 +60,13 @@ class _ActionButtonState extends ClickableObjectState<ActionButton> {
     Widget? text;
     Widget? icon;
 
-    var textSize = Desing.of(context).typography.fontSize100.value;
+    var textSize = {
+      ButtonSize.small: Desing.of(context).typography.fontSize75,
+      ButtonSize.medium: Desing.of(context).typography.fontSize100,
+      ButtonSize.large: Desing.of(context).typography.fontSize200,
+      ButtonSize.extraLarge: Desing.of(context).typography.fontSize300,
+    }[widget.size]!
+        .value;
 
     Color textColor;
     if (widget.isSelected &&
@@ -142,13 +148,13 @@ class _ActionButtonState extends ClickableObjectState<ActionButton> {
 
     if (widget.isEmphasized) {
       if (touch) {
-        return Desing.of(context).colors.accent.shade1000;
+        return Desing.of(context).colors.accent.shade1100;
       }
       if (hover || focus) {
-        return Desing.of(context).colors.accent.shade900;
+        return Desing.of(context).colors.accent.shade1000;
       }
 
-      return Desing.of(context).colors.accent.shade800;
+      return Desing.of(context).colors.accent.shade900;
     }
 
     if (widget.isSelected) {
@@ -171,6 +177,10 @@ class _ActionButtonState extends ClickableObjectState<ActionButton> {
   }
 
   BorderRadius getBorderRadius() {
+    if (widget.label == null) {
+      return const BorderRadius.all(Radius.circular(16));
+    }
+
     const base = Radius.circular(4);
 
     if (widget.groupPosition == null) {

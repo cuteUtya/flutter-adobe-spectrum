@@ -1,8 +1,10 @@
+import 'package:design_system_provider/desing_provider.dart';
+import 'package:design_system_provider/desing_system.dart';
 import 'package:design_system_provider/desing_typography.dart';
 import 'package:flutter/cupertino.dart';
 
 class SpectrumTypograhy extends TypographyData {
-  SpectrumTypograhy()
+  SpectrumTypograhy(this.desing)
       : super(
           fontSize50: FontSize(desktop: 11, mobile: 13),
           fontSize75: FontSize(desktop: 12, mobile: 15),
@@ -21,6 +23,8 @@ class SpectrumTypograhy extends TypographyData {
           fontSize1300: FontSize(desktop: 60, mobile: 70),
         );
 
+  final DesingSystem desing;
+
   @override
   TextSpan text(
     String text, {
@@ -35,11 +39,18 @@ class SpectrumTypograhy extends TypographyData {
         fontFamily = "Source Code Pro";
         break;
 
+      case TextSemantic.heading:
+        color ??= desing.colors.gray.shade900;
+        continue def;
+
+      def:
       default:
         // TODO import adobe clean
+        color ??= desing.colors.gray.shade800;
         fontFamily = "Adobe Clean";
         break;
     }
+
     return TextSpan(
       text: text,
       style: TextStyle(

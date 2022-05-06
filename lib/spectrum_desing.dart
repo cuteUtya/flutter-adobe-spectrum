@@ -166,7 +166,7 @@ class Spectrum implements DesingSystem {
       magenta: magenta,
     );
 
-    typography = SpectrumTypograhy();
+    typography = SpectrumTypograhy(this);
 
     layout = LayoutData(
       spacing50: Spacing(2),
