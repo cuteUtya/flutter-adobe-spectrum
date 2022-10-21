@@ -36,16 +36,17 @@ class SpectrumTypograhy extends TypographyData {
 
     switch (semantic) {
       case TextSemantic.code:
+        color ??= desing.colors.gray.shade900;
         fontFamily = "Source Code Pro";
         break;
 
       case TextSemantic.heading:
         color ??= desing.colors.gray.shade900;
+        fontFamily = "Adobe Clean";
         continue def;
 
       def:
       default:
-        // TODO import adobe clean
         color ??= desing.colors.gray.shade800;
         fontFamily = "Adobe Clean";
         break;
