@@ -49,6 +49,7 @@ class ActionBar extends StatelessWidget {
             children: [
               s.CloseButton(
                 size: ButtonSize.large,
+                isEmphasized: isEmphasized,
                 onClick: () => onClose?.call(),
               ),
               Container(
