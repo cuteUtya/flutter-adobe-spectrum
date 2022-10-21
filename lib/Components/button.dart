@@ -6,8 +6,8 @@ import 'package:design_system_provider/desing_typography.dart';
 import 'package:adobe_spectrum/clickable_object.dart';
 import 'package:flutter/material.dart';
 
-class Button extends StatefulWidget {
-  const Button({
+class AdobeButton extends StatefulWidget {
+  const AdobeButton({
     Key? key,
     this.label,
     this.hideLabel,
@@ -37,10 +37,10 @@ class Button extends StatefulWidget {
   //TODO: static colors, hide label, pending state
 
   @override
-  State<StatefulWidget> createState() => _ButtonState();
+  State<StatefulWidget> createState() => _AdobeButtonState();
 }
 
-class _ButtonState extends ClickableObjectState<Button> {
+class _AdobeButtonState extends ClickableObjectState<AdobeButton> {
   late var design = Desing.of(context);
 
   late ColorTones mainColor = getMainColor();
@@ -60,7 +60,7 @@ class _ButtonState extends ClickableObjectState<Button> {
 
   Color getTextColor(Color buttonColor) {
     if (widget.isDisabled) {
-      return design.colors.gray.shade600;
+      return design.colors.gray.shade500;
     } else {
       if (widget.variant == ButtonVariant.secondary) {
         return Colors.black;
@@ -86,7 +86,7 @@ class _ButtonState extends ClickableObjectState<Button> {
 
   Color getButtonColor() {
     if (widget.isDisabled) {
-      return design.colors.gray.shade300;
+      return design.colors.gray.shade200;
     } else {
       if (touch) {
         return getHightlighetButtonColor();
@@ -101,31 +101,31 @@ class _ButtonState extends ClickableObjectState<Button> {
   Color getHoverButtonColor() {
     switch (widget.variant) {
       case ButtonVariant.callToAction:
-        return mainColor.shade900;
+        return mainColor.shade500;
       case ButtonVariant.negative:
-        return mainColor.shade1000;
+        return mainColor.shade900;
       case ButtonVariant.primary:
         return Colors.black;
       case ButtonVariant.secondary:
-        return mainColor.shade400;
+        return mainColor.shade300;
     }
   }
 
   Color getHoverFillColor(Color buttonColor) {
-    if (widget.variant == ButtonVariant.secondary) return mainColor.shade300;
+    if (widget.variant == ButtonVariant.secondary) return mainColor.shade200;
     return buttonColor.withOpacity(0.15);
   }
 
   Color getHightlighetButtonColor() {
     switch (widget.variant) {
       case ButtonVariant.callToAction:
-        return mainColor.shade1000;
+        return mainColor.shade400;
       case ButtonVariant.negative:
-        return mainColor.shade1100;
+        return mainColor.shade1000;
       case ButtonVariant.primary:
         return Colors.black;
       case ButtonVariant.secondary:
-        return mainColor.shade600;
+        return mainColor.shade500;
     }
   }
 
@@ -134,19 +134,19 @@ class _ButtonState extends ClickableObjectState<Button> {
       return buttonColor.withOpacity(0.30);
     }
 
-    return mainColor.shade500;
+    return mainColor.shade400;
   }
 
   Color getIdleButtonColor() {
     switch (widget.variant) {
       case ButtonVariant.callToAction:
-        return mainColor.shade800;
+        return mainColor.shade600;
       case ButtonVariant.negative:
-        return mainColor.shade900;
+        return mainColor.shade800;
       case ButtonVariant.primary:
-        return mainColor.shade900;
+        return mainColor.shade800;
       case ButtonVariant.secondary:
-        return mainColor.shade300;
+        return mainColor.shade200;
     }
   }
 
@@ -265,7 +265,7 @@ class _ButtonState extends ClickableObjectState<Button> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(buttonRadius + 4)),
         border: Border.all(
-          color: focus ? design.colors.accent.shade800 : Colors.transparent,
+          color: focus ? design.colors.accent.shade700 : Colors.transparent,
           width: 2,
         ),
       ),
