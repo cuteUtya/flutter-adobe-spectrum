@@ -105,11 +105,14 @@ class _NavigationBarAndroidItemDisplay extends StatelessWidget {
                 ],
               ),
             ),
-            Text.rich(
-              design.typography.text(
-                property.name,
-                size: design.typography.fontSize100.value,
-                color: color,
+            Padding(
+              padding: design.layout.spacing50.top,
+              child: Text.rich(
+                design.typography.text(
+                  property.name,
+                  size: design.typography.fontSize75.value,
+                  color: color,
+                ),
               ),
             )
           ],
