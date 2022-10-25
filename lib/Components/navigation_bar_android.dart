@@ -6,10 +6,13 @@ class NavigationBarAndroid extends StatefulWidget {
   const NavigationBarAndroid({
     Key? key,
     required this.items,
+    required this.onBarSelected,
     this.usePrimaryBackground = true,
   }) : super(key: key);
   final List<NavigationBarItem> items;
   final bool usePrimaryBackground;
+
+  final Function(NavigationBarItem) onBarSelected;
 
   @override
   State<StatefulWidget> createState() => _NavigationBarAndroidState();
@@ -30,12 +33,14 @@ class _NavigationBarAndroidState extends State<NavigationBarAndroid> {
           for (var i in widget.items)
             _NavigationBarAndroidItemDisplay(
               property: i,
-              //TODO
               selected: widget.items.indexOf(i) == selectedIndex,
               onClick: i.disabled
                   ? null
                   : () => setState(
-                        () => selectedIndex = widget.items.indexOf(i),
+                        () {
+                          selectedIndex = widget.items.indexOf(i);
+                          widget.onBarSelected(widget.items[selectedIndex]);
+                        },
                       ),
             )
         ],
