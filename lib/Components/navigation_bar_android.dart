@@ -6,13 +6,10 @@ class NavigationBarAndroid extends StatefulWidget {
   const NavigationBarAndroid({
     Key? key,
     required this.items,
-    required this.onBarSelected,
     this.usePrimaryBackground = true,
   }) : super(key: key);
   final List<NavigationBarItem> items;
   final bool usePrimaryBackground;
-
-  final Function(NavigationBarItem) onBarSelected;
 
   @override
   State<StatefulWidget> createState() => _NavigationBarAndroidState();
@@ -39,7 +36,6 @@ class _NavigationBarAndroidState extends State<NavigationBarAndroid> {
                   : () => setState(
                         () {
                           selectedIndex = widget.items.indexOf(i);
-                          widget.onBarSelected(widget.items[selectedIndex]);
                         },
                       ),
             )
@@ -68,7 +64,10 @@ class _NavigationBarAndroidItemDisplay extends StatelessWidget {
             ? design.colors.blue.shade800
             : design.colors.gray.shade700);
     return GestureDetector(
-      onTap: () => onClick?.call(),
+      onTap: () {
+        onClick?.call();
+        property.onClick?.call();
+      },
       child: Padding(
         padding: design.layout.spacing100.vertical,
         child: Column(
