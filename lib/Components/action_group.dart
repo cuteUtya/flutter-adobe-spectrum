@@ -19,6 +19,8 @@ class ActionGroup extends StatefulWidget {
     this.allowEmptySelection = false,
     this.overflowMode = OverflowMode.wrap,
     this.isDisabled = false,
+    this.onChange,
+    this.selectedItems = const [0]
   }) : super(key: key);
 
   final List<ActionItem> items;
@@ -34,56 +36,54 @@ class ActionGroup extends StatefulWidget {
   final bool allowEmptySelection;
   final OverflowMode overflowMode;
   final bool isDisabled;
+  final Function(List<ActionItem>)? onChange;
+  final List<int> selectedItems;
+
 
   @override
   State<StatefulWidget> createState() => _ActionGroupState();
 }
 
 class _ActionGroupState extends State<ActionGroup> {
-  List<ActionItem> selectedItems = [];
-
-  void selectDefault() {
-    if (widget.items.isNotEmpty) {
-      selectedItems.add(widget.items.first);
-    }
-  }
-
-  @override
-  void initState() {
-    if (widget.enableSelection && !widget.allowEmptySelection) {
-      selectDefault();
-    }
-    super.initState();
-  }
+  late List<int> selectedItems = (widget.enableSelection && !widget.allowEmptySelection) ? widget.selectedItems : [];
 
   void selectItem(ActionItem item) {
     setState(
       () {
-        if (selectedItems.contains(item)) {
+        var index = widget.items.indexOf(item);
+        if (selectedItems.contains(index)) {
           print("${widget.allowEmptySelection} && ${selectedItems.length}");
           if (!widget.allowEmptySelection && selectedItems.length == 1) return;
-
-          selectedItems.remove(item);
+          selectedItems.remove(index);
+          onChange();
         } else {
           if (widget.selectionMode == SelectionMode.single) {
             selectedItems.clear();
           }
-          selectedItems.add(item);
+          selectedItems.add(index);
+          onChange();
         }
       },
     );
   }
 
-  Widget buildButton(ActionItem item) {
-    var onClick = widget.enableSelection
-        ? () => selectItem(item)
-        : () => item.onClick?.call;
-    bool selected = selectedItems.contains(item);
+  void onChange() {
+    if(widget.onChange != null) {
+      widget.onChange!(selectedItems.map((e) => widget.items[e]).toList());
+    }
+  }
 
+  Widget buildButton(int itemIndex) {
+    var item = widget.items[itemIndex];
+    var onClick = widget.enableSelection
+        ? () => selectItem(widget.items[itemIndex])
+        : () => item.onClick?.call;
     var index = widget.items.indexOf(item);
+    bool selected = selectedItems.contains(index);
+
+    print('$index || $selectedItems');
 
     Widget result = ActionButton(
-      key: Key("item?=${item.hashCode}isSelected=$selected"),
       label: item.label,
       icon: item.icon,
       isDisabled: widget.isDisabled,
@@ -132,7 +132,7 @@ class _ActionGroupState extends State<ActionGroup> {
     for (int i = 0; i < widget.items.length; i++) {
       Widget item = Container(
         margin: widget.density == ObjectsGroupDensity.compact ? null : margin,
-        child: buildButton(widget.items[i]),
+        child: buildButton(i),
       );
 
       if (widget.justified) {
