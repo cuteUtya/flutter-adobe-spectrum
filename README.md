@@ -1,16 +1,7 @@
 # adobe_spectrum
+ 
+Adobe [Spectrum design system](https://spectrum.adobe.com/) implementation for Flutter framework.
+Were used in my project [NZ.UA](https://github.com/cuteUtya/nz_ua)
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Preview: 
+![Screenshot 2023-04-25 190835](https://user-images.githubusercontent.com/61709763/234338284-324a57b7-6734-4cb0-971e-f6e3ae1c891e.png)
