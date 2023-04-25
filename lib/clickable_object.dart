@@ -19,7 +19,6 @@ class ClickableObjectState<T extends StatefulWidget> extends State<T> {
     }
   }
 
-  @mustCallSuper
   @override
   Widget build(BuildContext context) {
     Widget ret = MouseRegion(
